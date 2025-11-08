@@ -1,7 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,7 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { auth } from "../config/firebaseconfig";
+
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
+import { auth } from "../../config/firebaseconfig";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,10 +19,8 @@ const Login = () => {
   const login = async () => {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
-
       await AsyncStorage.setItem("email", result.user.email as string);
-
-      router.replace("/main");
+      router.replace("/");
     } catch (error) {
       console.log(error);
     }
@@ -30,7 +29,6 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-
       <TextInput
         value={email}
         placeholder="Email"
