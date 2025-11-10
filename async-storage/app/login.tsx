@@ -20,7 +20,7 @@ function Login() {
   };
 
   return (
-    <View>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <TextInput
         placeholder="Enter Email"
         value={email}
