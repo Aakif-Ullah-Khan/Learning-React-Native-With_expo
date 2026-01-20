@@ -1,50 +1,235 @@
-# Welcome to your Expo app 👋
+Here you go — **ready-to-paste `README.md` content** for your GitHub repo ✅ (Expo Router + TypeScript onboarding + SVG + AsyncStorage). Just copy this whole thing and replace your README with it.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+````md
+# 🚀 Custom Onboarding Screen (Expo Router + TypeScript + SVG)
 
-## Get started
+A clean and modern **Onboarding Screen UI** made with **Expo Router + React Native + TypeScript**.
 
-1. Install dependencies
+This repo is helpful if you want to build the same onboarding experience in your own app with:
 
-   ```bash
-   npm install
-   ```
+✅ Swipe onboarding screens  
+✅ Skip / Next button  
+✅ Dots indicator  
+✅ SVG illustrations support  
+✅ Onboarding shows only **one time** (AsyncStorage)  
+✅ File-based routing using Expo Router  
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 📸 Preview
 
-In the output, you'll find options to open the app in a
+> Add your screenshot here (optional)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Example:
+```md
+![Onboarding Preview](./assets/preview.png)
+````
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 🧰 Tech Stack
 
-When you're ready, run:
+* [Expo](https://expo.dev/)
+* [Expo Router](https://docs.expo.dev/router/introduction/)
+* React Native
+* TypeScript
+* AsyncStorage
+* `react-native-svg` + `react-native-svg-transformer`
 
-```bash
-npm run reset-project
+---
+
+## ✅ Features
+
+### 🎉 Onboarding UI
+
+* Center Illustration (SVG)
+* Title + Description
+* Pagination dots
+* Skip
+* Next button changes to **Get Started** on last slide
+
+### 💾 Show Onboarding Only Once
+
+This project saves onboarding status using AsyncStorage:
+
+* Key: `hasSeenOnboarding`
+* Value: `true`
+
+So onboarding will not show again once completed.
+
+---
+
+## 📂 Folder Structure
+
+```
+app/
+  index.tsx
+  (auth)/
+    onboarding.tsx
+  (tabs)/
+    home.tsx
+
+assets/
+  Illustration.svg
+
+metro.config.js
+declarations.d.ts
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## ⚙️ Setup & Run the Project
 
-To learn more about developing your project with Expo, look at the following resources:
+### 1️⃣ Clone the repository
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+git clone <YOUR_REPO_URL>
+cd <PROJECT_FOLDER>
+```
 
-## Join the community
+### 2️⃣ Install dependencies
 
-Join our community of developers creating universal apps.
+```bash
+npm install
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 3️⃣ Start the project (recommended with cache clear)
+
+```bash
+npx expo start -c
+```
+
+You can run it using:
+
+* Expo Go
+* Android Emulator
+* iOS Simulator
+* Development Build
+
+---
+
+## 🖼 SVG Support (Important)
+
+React Native `<Image />` does not support SVG directly.
+This project enables SVG rendering using:
+
+✅ `react-native-svg`
+✅ `react-native-svg-transformer`
+
+### Installed packages
+
+```bash
+npx expo install react-native-svg
+npm install --save-dev react-native-svg-transformer
+```
+
+### Metro Config
+
+📄 `metro.config.js`
+
+```js
+const { getDefaultConfig } = require("expo/metro-config");
+
+const config = getDefaultConfig(__dirname);
+
+config.transformer.babelTransformerPath = require.resolve(
+  "react-native-svg-transformer"
+);
+
+config.resolver.assetExts = config.resolver.assetExts.filter(
+  (ext) => ext !== "svg"
+);
+
+config.resolver.sourceExts.push("svg");
+
+module.exports = config;
+```
+
+### TypeScript Declaration
+
+📄 `declarations.d.ts`
+
+```ts
+declare module "*.svg" {
+  import React from "react";
+  import { SvgProps } from "react-native-svg";
+  const content: React.FC<SvgProps>;
+  export default content;
+}
+```
+
+---
+
+## 🔁 Routing Logic (Expo Router)
+
+### `app/index.tsx`
+
+This file decides where the user goes:
+
+* If onboarding already seen → `/ (tabs) / home`
+* Else → `/ (auth) / onboarding`
+
+---
+
+## 🧩 Customize Onboarding Slides
+
+Open:
+
+📄 `app/(auth)/onboarding.tsx`
+
+Find the slides array:
+
+```ts
+const slides = [
+  {
+    id: "1",
+    title: "Welcome to Surf.",
+    description: "I provide essential stuff for your\nui designs every tuesday!",
+    ImageComponent: Illustration,
+  },
+];
+```
+
+### ✅ Add new slides
+
+Just add new objects inside the array.
+
+---
+
+## 🧪 Reset Onboarding (Show Again)
+
+To show onboarding again, clear saved storage:
+
+### Option 1: Clear app storage from device settings/emulator
+
+OR
+
+### Option 2: Remove AsyncStorage key manually
+
+Temporary test code:
+
+```ts
+await AsyncStorage.removeItem("hasSeenOnboarding");
+```
+
+---
+
+## 📖 Learn More
+
+* Expo Docs: [https://docs.expo.dev/](https://docs.expo.dev/)
+* Expo Router: [https://docs.expo.dev/router/introduction/](https://docs.expo.dev/router/introduction/)
+* AsyncStorage Docs: [https://react-native-async-storage.github.io/async-storage/](https://react-native-async-storage.github.io/async-storage/)
+
+---
+
+## ⭐ Support
+
+If you found this project useful, please give this repo a ⭐ on GitHub 🙌
+
+```
+
+If you want, I can also generate:
+✅ README with badges (Expo / TypeScript / Router)  
+✅ a “Download & Setup” section for beginners  
+✅ example GIF preview of onboarding swipe
+```

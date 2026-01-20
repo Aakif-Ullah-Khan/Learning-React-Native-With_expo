@@ -4,7 +4,6 @@ import React, { useRef, useState } from "react";
 import {
   Dimensions,
   FlatList,
-  Image,
   NativeScrollEvent,
   NativeSyntheticEvent,
   StatusBar,
@@ -14,13 +13,15 @@ import {
   View,
 } from "react-native";
 
+import Illustration from "../assets/Illustration.svg"; // ✅ import svg as component
+
 const { width } = Dimensions.get("window");
 
 type SlideItem = {
   id: string;
   title: string;
   description: string;
-  image: any;
+  ImageComponent: React.FC<any>; // ✅ store svg component
 };
 
 export default function Onboarding() {
@@ -30,19 +31,19 @@ export default function Onboarding() {
       id: "1",
       title: "Welcome to Surf.",
       description: "I provide essential stuff for your\nui designs every tuesday!",
-      image: require("../assets/Illustration.png")
+      ImageComponent: Illustration,
     },
     {
       id: "2",
       title: "Design faster.",
       description: "Use ready-made UI templates\nand components.",
-      image: require("../assets/Illustration.png")
+      ImageComponent: Illustration,
     },
     {
       id: "3",
       title: "Stay productive.",
       description: "Organize your work\nand keep things simple.",
-      image: require("../assets/Illustration.png")
+      ImageComponent: Illustration,
     },
   ];
 
@@ -75,7 +76,8 @@ export default function Onboarding() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-<View style={styles.topBar}></View>
+      <View style={styles.topBar} />
+
       {/* Slides */}
       <FlatList
         ref={flatListRef}
@@ -86,16 +88,21 @@ export default function Onboarding() {
         keyExtractor={(item) => item.id}
         onScroll={handleScroll}
         scrollEventThrottle={16}
-        renderItem={({ item }) => (
-          <View style={[styles.slide, { width }]}>
-            <View style={styles.imageWrapper}>
-              <Image source={item.image} style={styles.image} resizeMode="contain" />
-            </View>
+        renderItem={({ item }) => {
+          const SVG = item.ImageComponent;
 
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.description}>{item.description}</Text>
-          </View>
-        )}
+          return (
+            <View style={[styles.slide, { width }]}>
+              <View style={styles.imageWrapper}>
+                {/* ✅ render svg */}
+                <SVG width={"100%"} height={"100%"} />
+              </View>
+
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.description}>{item.description}</Text>
+            </View>
+          );
+        }}
       />
 
       {/* Bottom Bar */}
@@ -140,16 +147,11 @@ const styles = StyleSheet.create({
   },
 
   imageWrapper: {
-    flex: 0.65,
+    width: "100%",
+    height: 320, // ✅ important for SVG sizing
     justifyContent: "center",
     alignItems: "center",
-    width: "100%",
     marginTop: -100,
-  },
-
-  image: {
-    width: "100%",
-    height: "100%",
   },
 
   title: {
@@ -176,38 +178,18 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
 
-  skip: {
-    color: "#bbb",
-    fontSize: 18,
-  },
+  skip: { color: "#bbb", fontSize: 18 },
 
-  next: {
-    color: "#111",
-    fontSize: 20,
-    fontWeight: "700",
-  },
+  next: { color: "#111", fontSize: 20, fontWeight: "700" },
 
-  dots: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
+  dots: { flexDirection: "row", alignItems: "center", gap: 8 },
 
-  dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-  },
+  dot: { width: 10, height: 10, borderRadius: 5 },
+  dotActive: { backgroundColor: "#111" },
+  dotInactive: { backgroundColor: "#ddd" },
 
-  dotActive: {
-    backgroundColor: "#111",
-  },
-
-  dotInactive: {
-    backgroundColor: "#ddd",
-  },
-  topBar:{
+  topBar: {
     height: 40,
     backgroundColor: "#E6F4FE",
-  }
+  },
 });
