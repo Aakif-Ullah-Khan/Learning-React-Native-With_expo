@@ -1,5 +1,3 @@
-Here you go — **ready-to-paste `README.md` content** for your GitHub repo ✅ (Expo Router + TypeScript onboarding + SVG + AsyncStorage). Just copy this whole thing and replace your README with it.
-
 ````md
 # 🚀 Custom Onboarding Screen (Expo Router + TypeScript + SVG)
 
