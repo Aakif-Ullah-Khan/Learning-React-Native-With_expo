@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "726949038420",
+    "project_id": "app-kamiti",
+    "storage_bucket": "app-kamiti.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726949038420:android:9be986185d3c9b04f820c1",
+        "android_client_info": {
+          "package_name": "com.jabirulabs.kamitiapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkNhkGL8_e1dCmvxMhY9WEJ1AMjCqCTEw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
